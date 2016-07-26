@@ -1,0 +1,41 @@
+<link rel="stylesheet" href="./css/listProject.css">
+<div class="row" id="navBar">
+	
+<div class="col-xs-12 col-lg-3 navSubDiv" id="todayDate"></div>
+        <div class="col-xs-3 col-lg-3 navSubDiv" id="weatherDeatils"></div>
+        <div class="col-xs-3 col-lg-3 navSubDiv"></div>
+        <div class="col-lg-3 actionDiv" >
+        <div class="col-lg-8" style="text-align:center;padding-top:5px;"><p>Welcome {{userName}}</p></div>
+        <div class="col-lg-4"><button class="btn btn-warning" ng-click="logout()">Logout</button></div>
+        </div>
+      </div>
+</div>
+<div class="row" id="headDiv">
+	<LEGEND>Project List</LEGEND>	
+</div>
+
+<div class="row">
+	<div class="col-lg-2"></div>
+	<div class="col-lg-8">
+		<table class="table">
+		<tr class="success">
+			<td>Project Name</td>
+			<td>Client Name</td>
+			<td>Option</td>
+		</tr>
+			<tr class="info" class="" ng-repeat="projects in projectList">
+				<td>
+				{{projects.projectName}}
+				</td>
+				<td>
+				{{projects.clientName}}
+				</td>
+				<td>
+					<button class="btn btn-danger" ng-click="redirectToViewDetails(projects.aspireProjectName)">View Details</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+
+</div>

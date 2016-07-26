@@ -1,0 +1,43 @@
+#headerDiv
+{
+  height:100px;
+  text-align: center;
+  font-size: 5em;
+  background-color: #c7d0d5;
+  color: #ff7148;
+  font-family: 'Montserrat', sans-serif;
+   text-shadow: 4px 4px 4px #aaa;
+
+}
+#navBar
+{
+  width:100%;
+  height:50px;
+  background-color:#93b1c6;
+  color: white;
+  -webkit-align-content: center;
+
+}
+
+.navSubDiv
+{
+  padding-top: 5px;
+  text-align:center;
+  font-size:1.2em;
+}
+body
+{
+  padding-bottom: 70px;
+}
+#footerDiv
+{
+  height: 50px;
+  background-color:#93b1c6;
+  text-align: center;
+
+}
+.actionDiv
+{
+  vertical-align: center;
+  padding-top: 10px;
+}

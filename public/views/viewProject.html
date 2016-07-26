@@ -1,0 +1,95 @@
+<link rel="stylesheet" href="./css/viewProject.css">
+      <div class="row"  id="navBar">
+        <div class=" col-lg-3 navSubDiv"></div>
+        <div class=" col-lg-3 navSubDiv" ></div>
+        <div class=" col-lg-3 navSubDiv"></div>
+        <div class="col-lg-3 actionDiv" >
+        <div class="col-lg-8" style="text-align:center;padding-top:5px;"><p>Welcome {{userName}}</p></div>
+        <div class="col-lg-4"><button class="btn btn-warning" ng-click="logout()">Logout</button></div>
+          
+        </div>
+      </div>
+<div class="row" id="headDiv">
+	<LEGEND>Project Details</LEGEND>	
+</div>
+<div class="row">
+	<div class="col-lg-2"> </div>
+	<div class="col-lg-8">
+
+		<div class="panel panel-info">
+  		<div class="panel-heading">
+    	<h3 class="panel-title"><b>Project Code</b></h3>
+  		</div>
+  		<div class="panel-body">
+    	{{projectDetail.aspireProjectName}}
+  		</div>
+  		<div class="panel-heading">
+    	<h3 class="panel-title"><b>Project Name</b></h3>
+  		</div>
+  		<div class="panel-body">
+    	{{projectDetail.projectName}}
+  		</div>
+  		<div class="panel-heading">
+    	<h3 class="panel-title"><b>Project Description</b></h3>
+  		</div>
+  		<div class="panel-body">
+    	{{projectDetail.projectDescription}}
+  		</div>
+  		<div class="panel-heading">
+    	<h3 class="panel-title"><b>Customer</b></h3>
+  		</div>
+  		<div class="panel-body">
+    	{{projectDetail.clientName}}
+  		</div>
+      <div class="panel-heading">
+      <h3 class="panel-title"><b>Project Owner</b></h3>
+      </div>
+      <div class="panel-body">
+      {{projectDetail.projectOwner}}
+      </div>
+      <div class="panel-heading">
+      <h3 class="panel-title"><b>Account Manager</b></h3>
+      </div>
+      <div class="panel-body">
+      {{projectDetail.accountManager}}
+      </div>
+      <div class="panel-heading">
+      <h3 class="panel-title"><b>Start Date</b></h3>
+      </div>
+      <div class="panel-body">
+      {{customStartDate}}
+      </div>
+      <div class="panel-heading">
+      <h3 class="panel-title"><b>End Date</b></h3>
+      </div>
+      <div class="panel-body">
+      {{customEndDate}}
+      </div>
+  		<div class="panel-heading">
+    	<h3 class="panel-title"><b>Project Manager(s)</b></h3>
+  		</div>
+  		<div class="panel-body">
+      <ul ng-repeat="pm in projectDetail.projectManagers">
+        <li>{{pm.pmName}}</li>
+      </ul>
+  		</div>
+
+		<div class="panel-heading">
+    	<h3 class="panel-title"><b>Team members</b></h3>
+  		</div>
+  		<div class="panel-body">
+    	 <ul ng-repeat="team in projectDetail.teamMembers">
+        <li>{{team.memberName}}</li>
+      </ul>
+  		</div>
+
+          <div class="panel-body">
+          <button class="btn btn-primary" ng-click="redirectToEditProject()">Edit Details</button>
+      </div>
+
+		</div>
+
+		
+
+	</div>
+</div>

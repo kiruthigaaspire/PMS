@@ -1,0 +1,42 @@
+<DOCTYPE HTML5>
+<html ng-app="informacia">
+	<head>
+		<title>Informicia</title>
+		  <meta name="viewport" content="width=device-width, initial-scale=1">
+			<script  src ="bower_components/jquery/dist/jquery.js" ></script>
+			<link rel="stylesheet" href ="bower_components/bootstrap/dist/css/bootstrap.css" >
+			<link rel="stylesheet" href ="bower_components/bootstrap/dist/css/bootstrap-theme.css" >
+			<script  src ="bower_components/bootstrap/dist/js/bootstrap.js" ></script>
+			<link rel="stylesheet" href="./css/index.css">
+			<script type="text/javascript" src="./js/index.js"></script>
+			
+	</head>
+	<body class="container-fluid" onload="initial_functions()">
+		 <div class="row"  id="headerDiv"> 
+ 			 Informicia
+  		</div>
+		<div ng-view>
+			
+		</div>
+		<div id="footerDiv" class="row navbar-fixed-bottom">
+				<div class=" col-xs-4 col-lg-4"></div>
+				<div class="col-xs-4 col-lg-4"><i>Copyright @Aspiresystems</i></div>
+				<div class="col-xs-4 col-lg-4"></div>
+			</div>
+
+
+		  	<script src="bower_components/angular/angular.js"></script>
+  		  	<script src="bower_components/angular-route/angular-route.js"></script>
+  		  	 
+  			<script src="app.js"></script>
+  			<!--Controller Scripts-->
+  			<script src="controllers/home.js"></script>
+  			<script src="controllers/listOption.js"></script>
+  			<script src="controllers/addProject.js"></script>
+  			<script src="controllers/editProject.js"></script>
+  			<script src="controllers/listProject.js"></script>
+  			<script src="controllers/viewProject.js"></script>
+  			<script src="controllers/addCustomField.js"></script>
+  			<script src="services/logoutService.js"></script>
+	</body>
+</html>

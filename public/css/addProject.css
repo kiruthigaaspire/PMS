@@ -1,0 +1,16 @@
+#headDiv legend
+{
+	padding: 10px;
+	font-family: "Times New Roman", Times, serif;
+	font-size:3em;
+
+}
+#addProjectDiv
+{
+	text-align: center;
+	align-content: center;
+}
+#contentDiv
+{
+	padding-bottom: 50px;
+}

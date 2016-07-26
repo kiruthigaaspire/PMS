@@ -1,0 +1,80 @@
+<link rel="stylesheet" href="./css/addProject.css">
+	<div class="row"  id="navBar">
+      	<div class="col-xs-12 col-lg-3 navSubDiv" id="todayDate"></div>
+        <div class="col-xs-3 col-lg-3 navSubDiv" id="weatherDeatils"></div>
+        <div class="col-xs-3 col-lg-3 navSubDiv"></div>
+        <div class="col-lg-3 actionDiv" >
+        <div class="col-lg-8" style="text-align:center;padding-top:5px;"><p>Welcome {{userName}}</p></div>
+        <div class="col-lg-4"><button class="btn btn-warning" ng-click="logout()">Logout</button></div>
+        </div>
+      </div>
+<div class="row" id="headDiv">
+	<LEGEND>Add New Project</LEGEND>
+</div>
+
+
+<div class="row" id="contentDiv">
+	<div class="col-lg-4"></div>
+	<div class="col-lg-4" id="addProjectDiv">
+		<form>
+		<table class="table">
+			<tr>
+			<td>
+	
+  <div class="form-group">
+    <label for="projectName">Aspire Project Name</label>
+    <input type="text" class="form-control" id="aspireProjectName" ng-model="aspireProjectName" placeholder="Aspire Project Name">
+  </div>
+  </td>
+  <td></td>
+</tr>
+		<tr>
+			<td>
+	
+  <div class="form-group">
+    <label for="projectName">Project Name</label>
+    <input type="text" class="form-control" id="projectName" ng-model="projectName" placeholder="Project Name">
+  </div>
+  </td>
+  <td></td>
+</tr>
+<tr>
+<td>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Project Managers</label>
+    
+    <input type="text" class="form-control" id="projectManagers" ng-model="projectManager" placeholder="Project Managers" >
+    </div>
+
+</form>
+</td>
+<td style="padding-top:35px;">
+<button class="btn btn-success" ng-click="addProjectManager()">Add PM</button>
+</td>
+</tr>
+<tr>
+<td>
+	  <button type="submit" class="btn btn-primary" ng-click="addProjectToDatabase()">Add Project</button>
+</td>
+<td></td>
+</tr>
+
+
+</table>
+</div>
+<!--This div shows the project managers to be added in the project-->
+	<div class="col-lg-4" >
+		<table class="table">
+		<th class="col-lg-4">PM Name</th>
+		<th class="col-lg-4">Pm ID</th>
+		<th class="col-lg-4">Option</th>
+		<tr class="info" ng-repeat="projectManagers in projectManagerList">
+			<td>{{projectManagers.pmName}}</td>
+			<td>{{projectManagers.pmId}}</td>
+			<td><button class="btn btn-danger" ng-click="removeProjectManager(projectManagers.pmId)">Remove</button></td>
+
+		</tr>
+		</table>
+	</div>
+	
+</div>

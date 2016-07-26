@@ -1,0 +1,86 @@
+<!--Css for the home page-->
+<link rel="stylesheet" href="./css/home.css">
+		 
+		 		  <div class="row"  id="navBar">
+		  	<div class="col-xs-12 col-lg-3 navSubDiv" id="todayDate"></div>
+		    <div class="col-xs-3 col-lg-3 navSubDiv" id="weatherDeatils"></div>
+		    <div class="col-xs-3 col-lg-3 navSubDiv"></div>
+		    <div class="col-xs-3 col-lg-3 navSubDiv" ></div>
+		  </div>
+
+<!--HTml code for the home page-->
+<div class="row" id="homeContent">
+	<!--code for the features -->
+	<div class="col-lg-8" id="featureDiv">
+
+
+			<div class="row">
+			  <div class="col-lg-2">
+			  	<img src="./images/project_details.png" class="img-thumbnail img-responsive" width="140px" height="140px">
+			  </div>
+			  <div class="col-lg-8">
+			  	<legend class="text-primary">Project Details</legend>
+			  	<span class="text-danger">
+			  	The project details can be easily seen and maintained.The project details can be easily seen and maintained.The project details can be easily seen and maintained.The project details can be easily seen and maintained.</span	>
+			  </div>
+			</div>
+			<br><hr><br>
+			<div class="row">
+			  <div class="col-lg-2">
+			  	<img src="./images/document_versioning.png" class="img-thumbnail img-responsive" width="140px" height="140px">
+			  </div>
+			  <div class="col-lg-8">
+			  	<legend class="text-primary">Document Version Management</legend>
+			  	<span class="text-success">
+			  	The project details can be easily seen and maintained.The project details can be easily seen and maintained.The project details can be easily seen and maintained.The project details can be easily seen and maintained.</span>
+			  </div>
+			</div>
+
+
+
+
+
+
+	</div>
+	
+
+
+	<!--Code for login form-->
+	<div id="loginDiv" class="col-lg-4">
+			<form class="form-horizontal">
+	  <fieldset>
+	    <legend>Login</legend>
+	    <div class="form-group">
+	      <label for="inputEmail" class="col-lg-2 control-label">Email:</label>
+	      <div class="col-lg-8">
+	        <input type="text" class="form-control" id="inputEmail" ng-model="userName" placeholder="Email">
+	      </div>
+	    </div>
+	    <br>
+	    <div class="form-group">
+	      <label for="inputPassword" class="col-lg-2 control-label">Password:</label>
+	      <div class="col-lg-8">
+	        <input type="password" class="form-control" id="inputPassword"  ng-model="userPassword" placeholder="Password">
+	        <!--<div class="checkbox">
+	          <label>
+	            <input type="checkbox"> Checkbox
+	          </label>
+	        </div>-->
+	      </div>
+	    </div>
+	    <br>
+	    <div class="form-group">
+	      <div class="col-lg-10 col-lg-offset-2">
+	      	<button type="submit" class="btn btn-primary" ng-click="authenticate()">Login</button>
+	        <a href="#" class="btn btn-link">Forgot Password ?</a>
+	        
+	      </div>
+	    </div>
+	  </fieldset>
+	</form>
+	<div class="bg-danger" id="errorDiv" ng-show="showError">
+	The Username or Password is Wrong...!!
+		
+	</div>
+	</div>
+</div>

@@ -1,0 +1,33 @@
+/*Css code for home.html file*/
+body
+{
+	background-color:  #f5f5f5;
+}
+#homeContent
+{
+	background-color: #f5f5f5;
+}
+#featureDiv
+{
+	padding-top: 70px;
+	padding-left: 70px;
+	
+}
+#loginDiv
+{
+	margin-top: 10px;
+	padding-top: 50px;
+	padding-bottom: 170px;
+	
+}
+
+#errorDiv
+{
+	border-radius: 5px;
+	border-color: red;
+	border-width: 2px;
+	padding:10px;
+	font-weight: bold;
+	color:red;
+
+}

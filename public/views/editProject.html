@@ -1,0 +1,198 @@
+<link rel="stylesheet" href="./css/editProject.css">
+
+     <div class="row"  id="navBar">
+<div class="col-xs-12 col-lg-3 navSubDiv" id="todayDate"></div>
+        <div class="col-xs-3 col-lg-3 navSubDiv" id="weatherDeatils"></div>
+        <div class="col-xs-3 col-lg-3 navSubDiv"></div>
+        <div class="col-lg-3 actionDiv" >
+        <div class="col-lg-8" style="text-align:center;padding-top:5px;"><p>Welcome {{userName}}</p></div>
+        <div class="col-lg-4"><button class="btn btn-warning" ng-click="logout()">Logout</button></div>
+        </div>
+      </div>
+<div class="row" id="headDiv">
+	<LEGEND>Edit Project Details</LEGEND>
+</div>
+
+
+<div class="row" id="contentDiv">
+	
+	<div class="col-lg-12" id="addProjectDiv">
+		<form>
+		<table class="table">
+			<tr>
+			<td>
+	
+  <div class="form-group">
+    <label for="projectName">Project Code</label>
+    <input type="text" class="form-control" id="aspireProjectName" ng-model="aspireProjectName" placeholder="Aspire Project Name" disabled="true">
+  </div>
+  </td>
+  <td>
+   <div class="form-group">
+    <label for="projectName">Project Name</label>
+    <input type="text" class="form-control" id="projectName" ng-model="projectName" placeholder="Project Name" disabled="true">
+  </div>
+  	<td style="text-align:center;">
+  		 <div class="form-group">
+    <label for="projectName">Add Custom Field</label><br>
+    <button class="btn btn-warning" ng-click="redirectToAddCustomField()">Add Custom Field</button>
+  </div>
+  	</td>
+
+
+  </td>
+</tr>
+		<tr>
+		 <td>
+  	 <div class="form-group">
+    <label for="projectName">Customer</label>
+    <input type="text" class="form-control" id="clientName" ng-model="clientName" placeholder="Client Name">
+  </div>
+  </td>	
+<td>
+	
+  <div class="form-group">
+    <label for="projectName">Description</label>
+    <textarea class="form-control" id="projectDescription" ng-model="projectDescription" placeholder="Project Description"></textarea>
+    
+  </div>
+  </td>
+ 
+</tr>
+<tr>
+     <td>
+     <div class="form-group">
+    <label for="projectOwner">Project Owner</label>
+    <input type="text" class="form-control" id="projectOwner" ng-model="projectOwner" placeholder="Project Owner">
+  </div>
+  </td> 
+<td>
+  
+  <div class="form-group">
+    <label for="accountManager">Account Manager</label>
+    <input type="text" class="form-control" id="accountManager" ng-model="accountManager" placeholder="Account Manager">
+    
+  </div>
+  </td>
+ 
+</tr>
+<tr>
+     <td>
+     <div class="form-group">
+    <label for="StartDate">Start Date</label>
+    <input type="date" class="form-control" id="startDate" ng-model="startDate" placeholder="Start Date">
+  </div>
+  </td> 
+<td>
+  
+  <div class="form-group">
+    <label for="End Date">End Date</label>
+    <input type="date" class="form-control" id="endDate" ng-model="endDate" placeholder="End Date">
+    
+  </div>
+  </td>
+ 
+</tr>
+<tr>
+<td>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Project Managers</label>
+    
+    <input type="text" class="form-control" id="projectManagers" ng-model="projectManager" placeholder="Project Managers" >
+    </div>
+
+</form>
+</td>
+<td style="padding-top:35px;">
+<button class="btn btn-sm btn-success" ng-click="addProjectManager()">Add PM</button>
+</td>
+<td>
+		<table class="table">
+		<th class="col-lg-4">PM Name</th>
+		<th class="col-lg-4">PM ID</th>
+		<th class="col-lg-4">Option</th>
+		<tr class="info" ng-repeat="projectManagers in projectManagerList">
+			<td>{{projectManagers.pmName}}</td>
+			<td>{{projectManagers.pmId}}</td>
+			<td><button class="btn btn-xs btn-danger" ng-click="removeProjectManager(projectManagers.pmId)">Remove</button></td>
+
+		</tr>
+		</table>
+</td>
+</tr>
+<tr>
+<td>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Team Members</label>
+    
+    <input type="text" class="form-control" id="teamMember" placeholder="Team Member" >
+    </div>
+
+</form>
+</td>
+<td style="padding-top:35px;">
+<button class="btn btn-sm btn-success" ng-click="addTeamMember()">Add Member</button>
+</td>
+<td>
+		<table class="table">
+		<th class="col-lg-4">Member Name</th>
+		<th class="col-lg-4">Member ID</th>
+		<th class="col-lg-4">Option</th>
+		<tr class="info" ng-repeat="teamMembers in teamMemberList">
+			<td>{{teamMembers.memberName}}</td>
+			<td>{{teamMembers.memberId}}</td>
+			<td><button class="btn btn-xs btn-danger" ng-click="removeTeamMember(teamMembers.memberId)">Remove</button></td>
+
+		</tr>
+		</table>
+</td>
+</tr>
+<tr>
+</tr>
+<tr>
+<td></td>
+<td>
+	  
+</td>
+<td></td>
+</tr>
+
+
+</table>
+<!--   <table>
+    <tr ng-repeat="cf in customField">
+      <td>
+      {{cf.fieldTitle}}
+      <input class="form-control" type="{{cf.fieldType}}" name="{{cf.fieldName}}" id={{cf.fieldName}} value={{cf.fieldValue.value}}>
+      </td>
+    </tr>
+  </table> -->
+    <div ng-repeat-start="cf in customField" class="header"></div>
+
+         <div>
+    <label for="projectName">{{cf.fieldTitle}}</label>
+
+
+
+    <div ng-repeat="cfvalue in cf.fieldValue" class="item">
+    <input class="form-control radio-inline" type="{{cf.fieldType}}" name="{{cf.fieldName}}" id="{{cf.fieldName}}" ng-model="cf.fieldName" value="{{cfvalue.value}}">
+    <span ng-show="{{cf.isOption}}">{{cfvalue.value}}</span>
+    </div><br>
+      </div>
+    <div ng-repeat-end><br /></div>
+
+
+    <table class="table">
+      <tr>
+      <td class="col-lg-4"></td>
+        <td style="content-align:center;">
+          <button type="submit" class="btn btn-primary" ng-click="updateProjectDetails()">Update Details</button>
+        </td>
+        <td></td>
+      </tr>
+    </table>
+</div>
+<!--This div shows the project managers to be added in the project-->
+
+	
+</div>

@@ -27,9 +27,14 @@ $http.post('/myapi/authenticate',data)
 .success(function(response){
 	if(response.success)
 		{
+			var userNameTemp = $scope.userName.split('@');
 			localStorage.setItem('token',response.token);
-			localStorage.setItem('userName',$scope.userName);
+			localStorage.setItem('userName',userNameTemp[0]);
 			$location.url('/listOption');
+		}
+		else
+		{
+			$scope.showError = true;
 		}	
 
 })

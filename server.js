@@ -41,33 +41,37 @@ apiRoutes.post('/authenticate',function(req,res){
       
       var userName  = req.body.userName;
       var userPassword = req.body.userPassword;
- /*     var token = jwt.sign(userName, app.get('superSecret'), {});
-      res.json({success:true,token:token,message:"Token Sent"});*/
-      var client = ldap.createClient({
-         url: 'ldap://192.168.0.1:389'
+    var client = ldap.createClient({
+         url: 'ldap://172.24.113.1:389'
         });
 
       client.bind(userName,userPassword, function(err) {
-        if(err)
+        if(err){
           console.log("Error in binding the user  "+err);
+          res.json({success:false,message:"Wrong Credentials"});
+        }
         else{
-          console.log("Successfully Binded with LDAP");
+            var token = jwt.sign(userName, app.get('superSecret'), {});
+            res.json({success:true,token:token,message:"Token Sent"});
+            console.log("Successfully Binded with LDAP");
         }
 
       });
-      var opts = {
-  scope: 'sub',
-  //filter:'(&(sAMAccountName='+userName+'))',
-  paging: true,
-  sizeLimit: 200
+  /*    var opts = {
+  scope: 'base',
+  attributes: ['cn','dn','ou'],
+  filter:'(&(sAMAccountName='+userName+'))',
+ // paging: true,
+  
 };
-client.search('aspiresys.com', opts, function(err, res) {
+client.search('dc=aspiresys,dc=com,cn=System', function(err, res) {
   if(err){
     console.log("Error in search "+err);
   }
     else{
+      console.log(res);
   res.on('searchEntry', function(entry) {
-    console.log(entry);
+    console.log(entry.object);
   });
   res.on('page', function(result) {
     console.log('page end');
@@ -80,7 +84,7 @@ client.search('aspiresys.com', opts, function(err, res) {
     console.log('done ');
   });
 }
-});
+});*/
 //filter = "(&(sAMAccountName=$username))"
        
 //End of the authentication method

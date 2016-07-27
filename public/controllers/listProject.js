@@ -24,6 +24,7 @@ $scope.logout = function()
 {
 	
 localStorage.removeItem('token');
+localStorage.removeItem('userName');
 console.log("Log out Success");
 $location.url('/home');
 

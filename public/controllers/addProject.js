@@ -65,7 +65,10 @@ $scope.addProjectToDatabase = function(){
 		
 		$http.post('/myapi/projects',data)
 		.success(function(response){
-			alert(response.success);
+			if(response.success)
+			{
+				alert("Project Added SuccessFully");
+			}
 		})
 		.error(function(response){
 

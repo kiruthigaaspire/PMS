@@ -17,6 +17,7 @@ var teamMembers = new Schema({
 
 var fieldValue = new Schema({
       value : String,
+      isSelected : {type : String,default : false}
   });
 
 

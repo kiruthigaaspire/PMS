@@ -78,7 +78,7 @@ $scope.removeProjectManager = function(pmId){
 
 //...function for adding a member to the list..//
 $scope.addTeamMember = function(){
-
+		console.log($scope.teamMember);
 		var memberName = $scope.teamMember;
 		$scope.teamMemberList.push({'memberName':memberName,'memberId':memberName});
 		$scope.teamMember = "";
@@ -106,7 +106,30 @@ $scope.removeTeamMember = function(memberId){
 //...Update the Project Details...//
 $scope.updateProjectDetails = function(){
 
-		var data = {
+		var customArray = $scope.customField;
+		for( var i = 0; i < customArray.length; i++ ) {
+			if( customArray[i].fieldType === 'text' ) {
+				var valueArray = customArray[i].fieldValue;
+				console.log(customArray[i].fieldName);
+				//console.log(angular.element('#'+customArray[i].fieldName)[0].innerText);
+				console.log(document.getElementById(customArray[i].fieldName).innerText);
+				for(var j =0; j<valueArray.length;j++)
+				{
+					//valueArray[j].value === 
+					
+			
+				//var getField = angular.element( document.querySelector( '#'+customArray[i].fieldName));
+				//console.log(getField.val());
+				//customArray[i].fieldValue[0].value = getField.val();
+
+			}
+
+
+		}
+
+}
+
+	var data = {
 		aspireProjectName : $scope.aspireProjectName,
 		projectName : $scope.projectName,
 		clientName : $scope.clientName,
@@ -115,6 +138,7 @@ $scope.updateProjectDetails = function(){
 		teamMembers : $scope.teamMemberList,
 		projectOwner : $scope.projectOwner,
 		accountManager : $scope.accountManager,
+		customField : $scope.customField,
 		startDate : $scope.startDate,
 		endDate : $scope.endDate
 
@@ -135,8 +159,40 @@ $scope.updateProjectDetails = function(){
 		.error(function(response){
 
 		})
+		console.log(JSON.stringify($scope.customField));
 
 };
+
+$scope.getCustomFieldValue = function(name,value){
+
+console.log("The custom field name ="+name+" and the value is ="+value);
+	
+		var customArray = $scope.customField;
+		for( var i = 0; i < customArray.length; i++ ) {
+			if( customArray[i].fieldName === name ) {
+				var valueArray = customArray[i].fieldValue;
+				for(var j =0; j<valueArray.length;j++)
+				{
+					if(valueArray[j].value === value)
+					{
+						if(valueArray[j].isSelected === true)
+						valueArray[j].isSelected =false ;
+						else
+						valueArray[j].isSelected = true;
+					}
+					else
+					{
+						valueArray[j].isSelected = false;
+					}
+				}
+			
+				break;
+			}
+		}
+
+		console.log(JSON.stringify($scope.customField));
+
+}
 
 $scope.redirectToAddCustomField = function(){
 

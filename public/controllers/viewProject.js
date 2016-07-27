@@ -19,6 +19,7 @@ else {
 $scope.projectDetail="";
 $scope.projectManagerList = [];
 $scope.teamMemberList = [];
+$scope.customField = [];
 $scope.userName = localStorage.getItem('userName');
 
 $http.get('/myapi/projects/'+$routeParams.aspireProjectName)
@@ -30,6 +31,7 @@ $http.get('/myapi/projects/'+$routeParams.aspireProjectName)
 		var endDate  =new Date(response.user.endDate);
 		$scope.customStartDate =  $scope.changeDate(startDate);
 		$scope.customEndDate = $scope.changeDate(endDate);
+		$scope.customField = response.user.customField;
 		
 	}
 	else

@@ -125,7 +125,7 @@
   <div class="form-group">
     <label for="exampleInputPassword1">Team Members</label>
     
-    <input type="text" class="form-control" id="teamMember" placeholder="Team Member" >
+    <input type="text" class="form-control" id="teamMember" placeholder="Team Member" ng-model='teamMember'>
     </div>
 
 </form>
@@ -167,17 +167,38 @@
       </td>
     </tr>
   </table> -->
-    <div ng-repeat-start="cf in customField" class="header"></div>
+    <div ng-repeat-start="cf in customField" class="header">
 
          <div>
-    <label for="projectName">{{cf.fieldTitle}}</label>
+    <label for="projectName" ng-show="{{cf.isOption}}">{{cf.fieldTitle}}</label>
 
 
 
     <div ng-repeat="cfvalue in cf.fieldValue" class="item">
-    <input class="form-control radio-inline" type="{{cf.fieldType}}" name="{{cf.fieldName}}" id="{{cf.fieldName}}" ng-model="cf.fieldName" value="{{cfvalue.value}}">
-    <span ng-show="{{cf.isOption}}">{{cfvalue.value}}</span>
-    </div><br>
+    
+    <span ng-show="{{cf.isOption}}">{{cfvalue.value}}
+    <input class="radio-inline" type="{{cf.fieldType}}" name="{{cf.fieldName}}" id="{{cf.fieldName}}" value="{{cfvalue.value}}" ng-model ="customfield" ng-click="getCustomFieldValue(cf.fieldName,cfvalue.value)" ng-checked="{{cfvalue.isSelected}}"  >
+    </span>
+   
+    </div>
+      </div>
+      </div>
+    <div ng-repeat-end><br /></div>
+       <div ng-repeat-start="cf in customField" class="header">
+
+         <div>
+    <label for="projectName" ng-show='!{{cf.isOption}}'>{{cf.fieldTitle}}</label>
+
+
+
+    <div ng-repeat="cfvalue in cf.fieldValue" class="item">
+    
+    <span ng-show="!{{cf.isOption}}">
+    <input class="radio-inline" type="{{cf.fieldType}}" name="{{cf.fieldName}}" id="{{cf.fieldName}}" value="{{cfvalue.value}}">
+    </span>
+   
+    </div>
+      </div>
       </div>
     <div ng-repeat-end><br /></div>
 

@@ -57,21 +57,21 @@ apiRoutes.post('/authenticate',function(req,res){
         }
 
       });
-  /*    var opts = {
+  var opts = {
   scope: 'base',
   attributes: ['cn','dn','ou'],
-  filter:'(&(sAMAccountName='+userName+'))',
+  filter:'(&(sAMAccountName=v))',
  // paging: true,
   
 };
-client.search('dc=aspiresys,dc=com,cn=System', function(err, res) {
+/*client.search('dc=aspiresys,dc=com',opts, function(err, res) {
   if(err){
     console.log("Error in search "+err);
   }
     else{
       console.log(res);
   res.on('searchEntry', function(entry) {
-    console.log(entry.object);
+    console.log(entry);
   });
   res.on('page', function(result) {
     console.log('page end');
@@ -84,8 +84,8 @@ client.search('dc=aspiresys,dc=com,cn=System', function(err, res) {
     console.log('done ');
   });
 }
-});*/
-//filter = "(&(sAMAccountName=$username))"
+});
+*///filter = "(&(sAMAccountName=$username))"
        
 //End of the authentication method
 });
@@ -165,6 +165,8 @@ apiRoutes.put('/projects', function(req, res) {
   doc.accountManager  = req.body.accountManager;
   doc.startDate  = req.body.startDate;
   doc.endDate = req.body.endDate;
+  doc.customField = req.body.customField;
+
   doc.save(function(err,project){
     if(err)
     {
@@ -180,10 +182,44 @@ apiRoutes.put('/projects', function(req, res) {
 });
 
 apiRoutes.post('/addCustomField', function(req, res) {
-  
+ var error=false; 
   console.log(req.body[0].aspireProjectName);
+      if(req.body[0].aspireProjectName === 'master'){
+          project_model.find({}, function(err,user){
 
-      project_model.update({aspireProjectName: req.body[0].aspireProjectName },{ $push: { 'customField':req.body[0] } }, {upsert:true}, function(err,data) {
+
+for (var i in user) {
+  aspireProjectName = user[i].aspireProjectName;
+        project_model.update({aspireProjectName:aspireProjectName },{ $push: { 'customField':req.body[0] } }, {upsert:true},function(err,data) {
+      if (err) {
+        error = true;
+      
+      }
+      else {
+        error =false;
+         success = true;
+      } 
+
+    });
+
+
+}
+//end of the function for getting all the projects
+          });
+
+         if(error)
+         {
+          res.json({success:false,message:"Custom Field Failed"});
+         }
+         else
+         {
+          res.json({success:true,message:"Field Added Successfully"});
+         }
+
+      }
+        else
+        {
+      project_model.update({aspireProjectName: req.body[0].aspireProjectName },{ $push: { 'customField':req.body[0] } }, {upsert:true},function(err,data) {
       if (err) {
         res.json({success:false,message:'Some Error'+err} );
       }
@@ -193,7 +229,8 @@ apiRoutes.post('/addCustomField', function(req, res) {
       } 
 
     });
-
+}
+//End of the add custom field
 });
 
 //middleware to protect the routes from unauthorised access

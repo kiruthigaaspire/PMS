@@ -1,0 +1,36 @@
+<link rel="stylesheet" href="./css/fileUpload.css">
+
+<!--Code for navbar -->
+      <div class="row"  id="navBar">
+        <div class=" col-lg-3 navSubDiv"></div>
+        <div class=" col-lg-3 navSubDiv" ></div>
+        <div class=" col-lg-3 navSubDiv"></div>
+        <div class="col-lg-3 actionDiv" >
+        <div class="col-lg-8" style="text-align:center;padding-top:5px;"><p>Welcome {{userName}}</p></div>
+        <div class="col-lg-4"><button class="btn btn-warning" ng-click="logout()">Logout</button></div>
+          
+        </div>
+      </div>
+
+
+    <form  ng-controller="FileUploadCtrl as up" name="up.upload_form">
+                Single Image with validations
+            <input class="form-control" 
+               type="file"
+               ngf-select
+               ng-model="up.file"
+               name="file"
+               ngf-pattern="'*/*'"
+               accept="*/*"
+               ngf-max-size="50MB"
+               />
+            <!-- Image thumbnail: <img style="width:100px;" ngf-thumbnail="up.file"/> -->
+         
+            <button type="submit" class ="btn btn-primary" ng-click="up.submit()">submit</button>
+            <p>{{up.progress}}</p>
+            <div class="progress">
+  <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+  aria-valuemin="0" aria-valuemax="100" ng-style="myStyle">
+  </div>
+</div>
+        </form>

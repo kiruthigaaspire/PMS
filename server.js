@@ -10,26 +10,22 @@ var jwt    = require('jsonwebtoken');
 var Form = require('form-builder').Form;
 var ldap = require('ldapjs');
 var assert = require('assert');
+var multer  =   require('multer');
 mongoose.connect(config.database); // connect to database
 app.set('superSecret', config.secret); // secret variable
-
-
 projectModel = new project_model();
-
-    // configuration =================
-
-   // mongoose.connect('mongodb://node:nodeuser@mongo.onmodulus.net:27017/uwO3mypu');     // connect to mongoDB database on modulus.io
-
-
-
 app.use(express.static(__dirname + '/public'));                 // set the static files location /public/img will be /img for users
 app.use(morgan('dev'));                                         // log every request to the console
 app.use(bodyParser.urlencoded({'extended':'true'}));            // parse application/x-www-form-urlencoded
 app.use(bodyParser.json());                                     // parse application/json
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
 app.use(methodOverride());
-
-    // listen (start app with node server.js) ======================================
+    app.use(function(req, res, next) {
+        res.header("Access-Control-Allow-Origin", "http://localhost");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        next();
+    });
+app.use(express.static('../client'));
 var apiRoutes = express.Router(); 
 
 // app.get('/', function(req, res) {
@@ -61,9 +57,8 @@ apiRoutes.post('/authenticate',function(req,res){
   scope: 'base',
   attributes: ['cn','dn','ou'],
   filter:'(&(sAMAccountName=v))',
- // paging: true,
-  
-};
+  //paging: true,
+  };
 /*client.search('dc=aspiresys,dc=com',opts, function(err, res) {
   if(err){
     console.log("Error in search "+err);
@@ -89,6 +84,9 @@ apiRoutes.post('/authenticate',function(req,res){
        
 //End of the authentication method
 });
+
+
+
 
 apiRoutes.post('/projects', function(req, res) {
 
@@ -203,8 +201,7 @@ for (var i in user) {
     });
 
 
-}
-//end of the function for getting all the projects
+              }
           });
 
          if(error)
@@ -232,7 +229,6 @@ for (var i in user) {
 }
 //End of the add custom field
 });
-
 //middleware to protect the routes from unauthorised access
 apiRoutes.use(function(req, res, next) {
 
@@ -255,10 +251,31 @@ apiRoutes.use(function(req, res, next) {
     }
 });
 
-// Perform Like operation
-apiRoutes.put('/like/:email_id', function(req, res) {
-  //view_module.likeProfile(req,res);
-});
+
+var folderPath = './repos/myrepo'
+  var storage = multer.diskStorage({ //multers disk storage settings
+        destination: function (req, file, cb) {
+            cb(null, folderPath)
+        },
+        filename: function (req, file, cb) {
+            var datetimestamp = Date.now();
+            cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1])
+        }
+    });
+    var upload = multer({ //multer settings
+                    storage: storage
+                }).single('file');
+    /** API path that will upload the files */
+    apiRoutes.post('/upload', function(req, res) {
+      console.log("upload caled");
+        upload(req,res,function(err){
+            if(err){
+                 res.json({error_code:1,err_desc:err});
+                 return;
+            }
+             res.json({error_code:0,err_desc:null});
+        })
+    });
 
 
     

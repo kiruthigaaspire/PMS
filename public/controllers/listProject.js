@@ -40,7 +40,7 @@ $http.get('/myapi/projects')
 	}
 	else
 	{
-		alert("Error"+err);
+		alert("Error"+response.message);
 	}
 })
 .error(function(response){

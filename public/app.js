@@ -10,7 +10,8 @@ angular.module('informacia', [
   'informacia.viewProject',
   'informacia.addCustomField',
   'informacia.listOption',
-  'informacia.logoutService'
+  'informacia.logoutService',
+  'informacia.fileUpload'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
 
@@ -41,5 +42,9 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
     $routeProvider.when('/listOption/', {
       templateUrl: './views/listOptions.html',
       controller: 'ListOptionCtrl'
+      });
+    $routeProvider.when('/fileUpload/', {
+      templateUrl: './views/fileUpload.html',
+      controller: 'FileUploadCtrl'
       });
 }]);

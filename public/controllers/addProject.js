@@ -54,7 +54,7 @@ $scope.removeProjectManager = function(pmId){
 
 };
 
-
+//94c82d4cdaa9b36ecc7952d1df4a8208ea587008 github toekn
 //...function for adding the project to the Database....//
 $scope.addProjectToDatabase = function(){
 		var data = {
@@ -62,12 +62,43 @@ $scope.addProjectToDatabase = function(){
 		projectName : $scope.projectName,
 		projectManagers : $scope.projectManagerList
 		};
+
+	var githubData = 	{
+  name:$scope.aspireProjectName,
+  description: "This is your first repository",
+  private: false,
+  has_issues: true,
+  has_wiki: true,
+  has_downloads: true
+}
 		
 		$http.post('/myapi/projects',data)
 		.success(function(response){
 			if(response.success)
 			{
-				alert("Project Added SuccessFully");
+				var config = {
+
+			        headers:  {
+			      'Authorization':'token 94c82d4cdaa9b36ecc7952d1df4a8208ea587008',
+			      'Accept': 'application/json;odata=verbose',
+			    }  };
+
+    		$http.post('https://api.github.com/user/repos',githubData,config)
+    		.success(function(response){
+    			console.log("Success: "+response.Location);
+    			if(response.Status == "204")
+    			{
+    				$http.post
+    			}
+    		})
+    		.error(function(response){
+    			console.log("Error: "+response);
+    		})
+    		//end of if statement
+			}
+			else
+			{
+				console.log("Some problem in backend");
 			}
 		})
 		.error(function(response){

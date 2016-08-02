@@ -78,7 +78,7 @@ $scope.removeProjectManager = function(pmId){
 
 //...function for adding a member to the list..//
 $scope.addTeamMember = function(){
-		console.log($scope.teamMember);
+		console.log($scope.teamMember);	
 		var memberName = $scope.teamMember;
 		$scope.teamMemberList.push({'memberName':memberName,'memberId':memberName});
 		$scope.teamMember = "";

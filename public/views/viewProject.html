@@ -1,4 +1,8 @@
 <link rel="stylesheet" href="./css/viewProject.css">
+      
+
+
+<!--Code for navbar -->
       <div class="row"  id="navBar">
         <div class=" col-lg-3 navSubDiv"></div>
         <div class=" col-lg-3 navSubDiv" ></div>
@@ -9,13 +13,67 @@
           
         </div>
       </div>
+
+
+
+
+<!--code for Displaying Project Info-->
 <div class="row" id="headDiv">
 	<LEGEND>Project Details</LEGEND>	
 </div>
 <div class="row">
 	<div class="col-lg-2"> </div>
 	<div class="col-lg-8">
-
+  <table class="table table-bordered" >
+    <th style="text-align:center;">
+      Field
+    </th>
+    <th style="text-align:center;">
+      Value
+    </th>
+    <tr >
+      <td class="danger"><b>Project Code</b></td>
+      <td class="success" >{{projectDetail.aspireProjectName}}</td>
+    </tr>
+    <tr >
+      <td class="danger"><b>Project Name</b></td>
+      <td class="success" >{{projectDetail.projectName}}</td>
+    </tr>
+        <tr >
+      <td class="danger col-lg-6"><b>Project Description</b></td>
+      <td class="success" >{{projectDetail.projectDescription}}</td>
+    </tr>
+        <tr >
+      <td class="danger"><b>Customer</b></td>
+      <td class="success" >{{projectDetail.clientName}}</td>
+    </tr>
+        <tr >
+      <td class="danger"><b>Project Owner</b></td>
+      <td class="success" >{{projectDetail.projectOwner}}</td>
+    </tr>
+        <tr >
+      <td class="danger"><b>Account Manager</b></td>
+      <td class="success" >{{projectDetail.accountManager}}</td>
+    </tr>
+        <tr >
+      <td class="danger"><b>Start Date</b></td>
+      <td class="success" >{{customStartDate}}</td>
+    </tr>
+        <tr>
+      <td class="danger" ><b>End Date</b></td>
+      </td>
+      <td class="success" >{{customEndDate}}</td>
+    </tr>
+    <tr>
+      <td class="danger"><b>Project Managers</b></td>
+      <td class="success" >
+         <ul ng-repeat="team in projectDetail.teamMembers">
+        <li>{{team.memberName}}</li>
+      </ul>
+      </td>
+    </tr>
+  </table>
+<!-- 
 		<div class="panel panel-info">
   		<div class="panel-heading">
     	<h3 class="panel-title"><b>Project Code</b></h3>
@@ -91,5 +149,6 @@
 
 		
 
-	</div>
+	 -->
+</div>
 </div>

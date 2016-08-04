@@ -50,8 +50,9 @@ angular.module('informacia.fileUpload', ['ngRoute'])
 
 
     angular.module('informacia.fileUpload', ['ngFileUpload','ngRoute'])
-    .controller('FileUploadCtrl',['Upload','$window','$http','$scope',function(Upload,$window,$http,$scope){
-        var vm = this;
+    .controller('FileUploadCtrl',['Upload','$window','$http','$scope','$routeParams',function(Upload,$window,$http,$scope,$routeParams){
+        console.log($routeParams.path)
+        /*var vm = this;
         vm.submit = function(){
          //function to call on form submit
         console.log("submit cllaedd")
@@ -86,6 +87,6 @@ angular.module('informacia.fileUpload', ['ngRoute'])
             })
             .error(function(response){
             	console.log("Error"+response)
-            })*/
-        };
+            })
+        };*/
     }]);

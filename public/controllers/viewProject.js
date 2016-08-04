@@ -2,12 +2,6 @@
 
 angular.module('informacia.viewProject', ['ngRoute'])
 
-.config(['$routeProvider', function($routeProvider) {
-  		$routeProvider.when('/viewProject', {
-    	templateUrl: './views/viewProject.html',
-    	controller: 'ViewProjectCtrl'
-  		});
-}])
 .controller('ViewProjectCtrl',function($scope,$http,$routeParams,$location) {
 if(!localStorage.getItem('token') ){
 
@@ -21,6 +15,7 @@ $scope.projectManagerList = [];
 $scope.teamMemberList = [];
 $scope.customField = [];
 $scope.userName = localStorage.getItem('userName');
+var gitRepo;
 
 $http.get('/myapi/projects/'+$routeParams.aspireProjectName)
 .success(function(response){
@@ -32,6 +27,7 @@ $http.get('/myapi/projects/'+$routeParams.aspireProjectName)
 		$scope.customStartDate =  $scope.changeDate(startDate);
 		$scope.customEndDate = $scope.changeDate(endDate);
 		$scope.customField = response.user.customField;
+		gitRepo = response.user.gitRepo;
 		
 	}
 	else
@@ -66,7 +62,11 @@ $scope.redirectToEditProject = function(){
 $location.url('editProject/'+$routeParams.aspireProjectName);
 
 };
+$scope.redirectToProjectCode = function(){
+console.log(gitRepo);
+$location.url('projectCode/'+$routeParams.aspireProjectName);
 
+};
 
 }
 //...End of the Controller...//

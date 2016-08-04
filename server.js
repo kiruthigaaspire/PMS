@@ -1,3 +1,4 @@
+/*require decelerations*/
 var express  = require('express');
 var app      = express();                               // create our app w/ express
 var mongoose = require('mongoose');                     // mongoose for mongod
@@ -11,6 +12,15 @@ var Form = require('form-builder').Form;
 var ldap = require('ldapjs');
 var assert = require('assert');
 var multer  =   require('multer');
+var simple_git = require('simple-git')("repo_clones/");
+var mkdirp = require('mkdirp');
+var createFile = require('create-file');
+var fs = require("fs"),
+path = require("path");
+var apiRoutes = express.Router(); 
+var async = require('async');
+
+ /*Envirnoment Setup*/
 mongoose.connect(config.database); // connect to database
 app.set('superSecret', config.secret); // secret variable
 projectModel = new project_model();
@@ -26,12 +36,8 @@ app.use(methodOverride());
         next();
     });
 app.use(express.static('../client'));
-var apiRoutes = express.Router(); 
 
-// app.get('/', function(req, res) {
-//   // load the single view file (angular will handle the page changes on the front-end)
-//   res.sendfile('./public/index.html');
-// });
+/*Code For all the http requests*/
 
 apiRoutes.post('/authenticate',function(req,res){
       
@@ -86,15 +92,62 @@ apiRoutes.post('/authenticate',function(req,res){
 });
 
 
-
-
+//...create porject function to add the project in database and initiate the repo..//
 apiRoutes.post('/projects', function(req, res) {
 
   projectModel.aspireProjectName = req.body.aspireProjectName;
   projectModel.projectName = req.body.projectName;
   projectModel.projectManagers = req.body.projectManagers;
+  projectModel.gitRepo = req.body.gitRepo;
+  var aspireProjectName = req.body.aspireProjectName;
+  var url = "git+ssh://git@github.com/AmeyaShukla/"+aspireProjectName+".git" ;
 
-   project_model.findOne({aspireProjectName: req.body.aspireProjectName}, function(err,user){
+  simple_git.clone(url, './'+aspireProjectName+'/',function(err){
+  if(err)
+  console.log("Clone Failed"+err);
+else
+{
+  console.log("Clone success");
+  mkdirp('./repo_clones/'+aspireProjectName+'/spec_doc1', function (err) {
+    if (err) console.error(err)
+    else {
+      console.log("dir created");
+      addFile();
+      
+    }
+  });
+}
+});
+var addFile = function(){
+ createFile('./repo_clones/'+aspireProjectName+'/spec_doc1/default', 'initiate file', function (err) {
+  if(err)
+    console.log("Error in creating file");
+  else
+    {console.log("file created");
+  pushData();
+}
+});
+};
+var simple_git1 = require('simple-git')("repo_clones/"+aspireProjectName+"/");
+var pushData = function(){
+simple_git1
+          .add('--all')
+         .commit("first commit!")
+          .addRemote('mytest1', url)
+         .push('mytest1','master',function(err){
+          if(err)
+            console.log("Some Error"+err);
+          else
+            console.log("push Success");
+            addToDatabase();
+         })
+};
+
+
+//...Add the data into database...//
+var addToDatabase = function(){
+
+ project_model.findOne({aspireProjectName: req.body.aspireProjectName}, function(err,user){
     if(err){
 
       res.json({success:false,message:err});
@@ -117,7 +170,9 @@ apiRoutes.post('/projects', function(req, res) {
               });
         }
     });
-
+//...End of addToDatabase function...//
+}
+//...End of the create project function...//
 });
 
 
@@ -138,8 +193,130 @@ apiRoutes.get('/projects/:aspireProjectName', function(req, res) {
 
 });
 
+apiRoutes.post('/createFolder/',function(req,res){
+
+    var address = req.body.address;
+    console.log(address);
+    mkdirp('./repo_clones/'+address, function (err) {
+    if (err) console.error(err)
+    else {
+      console.log("dir created");
+      addFile();
+      
+    }
+  });
+    var aspireProjectName = req.body.gitRepo ;
+var url = "git+ssh://git@github.com/AmeyaShukla/"+aspireProjectName+".git" ;
+  var  addFile = function(){
+ createFile('./repo_clones/'+address+"/default", 'initiate file', function (err) {
+  if(err)
+    console.log("Error in creating file");
+  else
+    {console.log("file created");
+  pushData();
+}
+});
+};
+var simple_git1 = require('simple-git')("repo_clones/"+aspireProjectName+"/");
+var pushData = function(){
+simple_git1
+          .add('--all')
+          .commit("first commit!")
+          //.addRemote('mytest1', url)
+         .push('mytest1','master',function(err){
+          if(err)
+            console.log("Some Error"+err);
+          else
+            console.log("push Success");
+           
+         })
+         
+};
+
+})
 
 
+
+/*function for getting the project Code*/
+apiRoutes.get('/projectCode/:aspireProjectName', function(req, res) {
+
+var aspireProjectName = req.params.aspireProjectName;
+console.log(aspireProjectName);
+var url = "git+ssh://git@github.com/AmeyaShukla/"+aspireProjectName+".git" ;
+var simple_git1 = require('simple-git')("repo_clones/"+aspireProjectName+"/");
+
+simple_git1
+         
+         .pull('mytest1','master',function(err){
+          if(err){
+            console.log("Some Error"+err);
+          }
+          else{
+          var fileStructure = [],i=0;
+          var p = "./repo_clones/"+aspireProjectName+"/";
+          fs.readdir(p, function (err, files) {
+              if (err) {
+                  throw err;
+              }
+              files.map(function (file) {
+                  return path.join(p, file);
+              }).filter(function (file) {
+                  if(fs.statSync(file).isFile()){
+                     var data = {'name':path.basename(file),isFile:true,address:file};
+                    fileStructure[i] = data;
+                    i++;
+                  }
+                  else{
+                    var data = {'name':path.basename(file),isFile:false,address:file};
+                    fileStructure[i] = data;
+                    i++;
+                  }
+              })
+           
+          console.log(fileStructure);
+          res.json({success:true,fileStructure:fileStructure});
+          });
+          
+         }
+         })  
+
+/*End for getting the project code */
+});
+
+/*function for getting the subfolder files*/
+apiRoutes.post('/download/', function(req, res) {
+
+          var fileStructure = [],i=0;
+          var p = "./"+req.body.address+"/";
+          fs.readdir(p, function (err, files) {
+              if (err) {
+                  throw err;
+              }
+              files.map(function (file) {
+                  return path.join(p, file);
+              }).filter(function (file) {
+                  if(fs.statSync(file).isFile()){
+                     var data = {'name':path.basename(file),isFile:true,address:file};
+                    fileStructure[i] = data;
+                    i++;
+                  }
+                  else{
+                    var data = {'name':path.basename(file),isFile:false,address:file};
+                    fileStructure[i] = data;
+                    i++;
+                  }
+              })
+           
+          console.log(fileStructure);
+          res.json({success:true,fileStructure:fileStructure});
+          });
+
+
+
+
+});
+
+/*function for getting the list of all project*/
 apiRoutes.get('/projects', function(req, res) {
   //view_module.likeProfile(req,res);
   project_model.find({}, function(err,user){
@@ -147,11 +324,11 @@ apiRoutes.get('/projects', function(req, res) {
             res.json({success:false,message:err});
           else
             res.json({success:true,user:user})
-
   });
+
 });
 
-
+/*function for editing the project Detais*/
 apiRoutes.put('/projects', function(req, res) {
   project_model.findOne({ aspireProjectName:req.body.aspireProjectName}, function (err, doc){
   doc.projectName = req.body.projectName;
@@ -199,9 +376,7 @@ for (var i in user) {
       } 
 
     });
-
-
-              }
+        }
           });
 
          if(error)
@@ -229,6 +404,37 @@ for (var i in user) {
 }
 //End of the add custom field
 });
+
+var folderPath = './repos/myrepo'
+  var storage = multer.diskStorage({ //multers disk storage settings
+        destination: function (req, file, cb) {
+            cb(null, folderPath)
+        },
+        filename: function (req, file, cb) {
+            var datetimestamp = Date.now();
+            cb(null, file.fieldname+ '.' +file.originalname.split('.')[file.originalname.split('.').length -1])
+        }
+    });
+    var upload = multer({ //multer settings
+                    storage: storage
+                }).single('file');
+    /** API path that will upload the files */
+    apiRoutes.post('/upload', function(req, res) {
+      console.log("upload caled");
+        upload(req,res,function(err){
+            if(err){
+                 res.json({error_code:1,err_desc:err});
+                 return;
+            }
+             res.json({error_code:0,err_desc:null});
+        })
+    });
+
+
+
+
+
+
 //middleware to protect the routes from unauthorised access
 apiRoutes.use(function(req, res, next) {
 
@@ -252,30 +458,6 @@ apiRoutes.use(function(req, res, next) {
 });
 
 
-var folderPath = './repos/myrepo'
-  var storage = multer.diskStorage({ //multers disk storage settings
-        destination: function (req, file, cb) {
-            cb(null, folderPath)
-        },
-        filename: function (req, file, cb) {
-            var datetimestamp = Date.now();
-            cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1])
-        }
-    });
-    var upload = multer({ //multer settings
-                    storage: storage
-                }).single('file');
-    /** API path that will upload the files */
-    apiRoutes.post('/upload', function(req, res) {
-      console.log("upload caled");
-        upload(req,res,function(err){
-            if(err){
-                 res.json({error_code:1,err_desc:err});
-                 return;
-            }
-             res.json({error_code:0,err_desc:null});
-        })
-    });
 
 
     

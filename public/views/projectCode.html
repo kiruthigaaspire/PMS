@@ -1,0 +1,101 @@
+<link rel="stylesheet" href="./css/projectCode.css">
+<div class="row" id="headDiv">
+	<LEGEND>Documents</LEGEND>	
+</div class="loaderDiv">
+<div>
+<img id="mydiv"  src="./images/loading_img.gif" />
+</div>
+<div class="row">
+
+<div class="col-lg-10" style="font-size:1.3em;"><code class=".warning">{{curDir}}</code></div>
+<div class="col-lg-2">
+<button class="btn btn-info" data-toggle="modal" data-target="#uploadModal">upload File</button>
+<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">Create Folder</button>
+</div>
+</div><hr>
+<div class="row">
+<div class="col-lg-12">
+	<button class="btn btn-danger" ng-click='goBack()'>Back</button>
+</div>
+<div class="col-lg-2"></div>
+<div class="col-lg-4">
+	<ul id="docsDiv" style="font-size:1.5em;" ng-repeat="files in fileStructure | filter : '!.git' ">
+	<li>
+	<span class="glyphicon glyphicon-folder-open" ng-show=!{{files.isFile}}>&nbsp</span>
+	<span class="glyphicon glyphicon-file" ng-show={{files.isFile}}>&nbsp</span>
+	<a ng-show=!{{files.isFile}} ng-click="getFiles(files.address,files.name)">{{files.name}}</a>
+	<a ng-show={{files.isFile}} >{{files.name}}</a>
+	</li>
+	
+</ul>
+</div>
+</div>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" ng-click="redirectToupload()">Add Folder</h4>
+      </div>
+      <div class="modal-body">
+			<form role="form">
+			  <div class="form-group">
+			    <label for="folderName">Folder Name</label>
+			    <input type="text" class="form-control" id="folderName" ng-model="folderName">
+			  </div>
+			  <button type="submit" class="btn btn-success" ng-click="addFolder()">Add Folder</button>
+			</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<div id="uploadModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title" ng-click="redirectToupload()">Upload File</h4>
+      </div>
+      <div class="modal-body">
+      		    <form  ng-controller="FileUploadCtrl as up" name="up.upload_form">
+                Single Image with validations
+            <input class="form-control" 
+               type="file"
+               ngf-select
+               ng-model="up.file"
+               name="file"
+               ngf-pattern="'*/*'"
+               accept="*/*"
+               ngf-max-size="50MB"
+               />
+            <!-- Image thumbnail: <img style="width:100px;" ngf-thumbnail="up.file"/> -->
+         
+            <button type="submit" class ="btn btn-primary" ng-click="up.submit()">submit</button>
+            <p>{{up.progress}}</p>
+            <div class="progress">
+			  <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
+			  aria-valuemin="0" aria-valuemax="100" ng-style="myStyle">
+			  </div>
+			</div>
+    </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>

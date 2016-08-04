@@ -10,8 +10,8 @@ angular.module('informacia', [
   'informacia.viewProject',
   'informacia.addCustomField',
   'informacia.listOption',
-  'informacia.logoutService',
-  'informacia.fileUpload'
+  'informacia.fileUpload',
+  'informacia.projectCode',
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
 
@@ -43,8 +43,12 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
       templateUrl: './views/listOptions.html',
       controller: 'ListOptionCtrl'
       });
-    $routeProvider.when('/fileUpload/', {
+    $routeProvider.when('/fileUpload/:path', {
       templateUrl: './views/fileUpload.html',
       controller: 'FileUploadCtrl'
+      });
+    $routeProvider.when('/projectCode/:gitRepo', {
+      templateUrl: './views/projectCode.html',
+      controller: 'ProjectCodeCtrl'
       });
 }]);

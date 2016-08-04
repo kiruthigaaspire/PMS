@@ -4,7 +4,9 @@
   "description": "",
   "main": "server.js",
   "dependencies": {
+    "async": "^2.0.1",
     "body-parser": "^1.4.3",
+    "create-file": "^1.0.1",
     "express": "^4.13.4",
     "form-builder": "0.0.1",
     "jsonwebtoken": "^7.1.6",
@@ -15,7 +17,8 @@
     "multer": "^1.1.0",
     "multer-s3": "^2.3.2",
     "ng-file-upload": "^12.0.4",
-    "request": "^2.74.0"
+    "request": "^2.74.0",
+    "simple-git": "^1.44.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

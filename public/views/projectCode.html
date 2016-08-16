@@ -7,27 +7,48 @@
 </div>
 <div class="row">
 
-<div class="col-lg-10" style="font-size:1.3em;"><code class=".warning">{{curDir}}</code></div>
-<div class="col-lg-2">
-<button class="btn btn-info" data-toggle="modal" data-target="#uploadModal">upload File</button>
-<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">Create Folder</button>
-</div>
+<div class="col-lg-10" style="font-size:1.3em;"><code class=".warning">Directory: {{curDir}}</code></div>
+
 </div><hr>
 <div class="row">
-<div class="col-lg-12">
-	<button class="btn btn-danger" ng-click='goBack()'>Back</button>
+<div class="col-lg-10">
+	<button class="btn btn-danger" ng-click='goBack()'>
+<span class=" glyphicon glyphicon-circle-arrow-left"></span>
+  Back</button>
+  <hr>
 </div>
+<div class="col-lg-2">
+<button class="btn btn-info" data-toggle="modal" data-target="#uploadModal">
+<span class="glyphicon glyphicon-cloud-upload"></span>
+upload File</button>
+<button class="btn btn-primary" data-toggle="modal" data-target="#myModal"> <span class="glyphicon glyphicon-plus-sign"></span> Create Folder</button>
+<hr>
+</div>
+<hr>
+
 <div class="col-lg-2"></div>
-<div class="col-lg-4">
-	<ul id="docsDiv" style="font-size:1.5em;" ng-repeat="files in fileStructure | filter : '!.git' ">
-	<li>
+<div class="col-lg-8">
+<table class="table" id='dataTable'>
+<tr class="success">
+  <th style="color:#4169E1">{{projectName}}</th>
+  <th style="text-align:right;padding-right:10px;">Last Modified</th>
+  <th style="text-align:right;padding-right:10px;">Download</th>
+</tr>
+<tr class=info id="docsDiv" style="font-size:1.2em;" ng-repeat="files in fileStructure | filter : '!.git' ">
+	<td>
 	<span class="glyphicon glyphicon-folder-open" ng-show=!{{files.isFile}}>&nbsp</span>
 	<span class="glyphicon glyphicon-file" ng-show={{files.isFile}}>&nbsp</span>
 	<a ng-show=!{{files.isFile}} ng-click="getFiles(files.address,files.name)">{{files.name}}</a>
 	<a ng-show={{files.isFile}} >{{files.name}}</a>
-	</li>
-	
-</ul>
+	</td>
+   <td  style="text-align:right">
+  <span ng-show={{files.isFile}}>{{files.time}}</span>
+  </td>
+  <td style="text-align:right">
+    <span class="glyphicon glyphicon-download" ng-show={{files.isFile}}></span>
+  </td>
+</tr>
+</table>
 </div>
 </div>
 <!-- Modal -->
@@ -66,15 +87,14 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title" ng-click="redirectToupload()">Upload File</h4>
+        <h4 class="modal-title" >Upload File</h4>
       </div>
       <div class="modal-body">
-      		    <form  ng-controller="FileUploadCtrl as up" name="up.upload_form">
-                Single Image with validations
-            <input class="form-control" 
+      		    <form  name="upload_form">
+                <input class="form-control" 
                type="file"
                ngf-select
-               ng-model="up.file"
+               ng-model="file"
                name="file"
                ngf-pattern="'*/*'"
                accept="*/*"
@@ -82,8 +102,8 @@
                />
             <!-- Image thumbnail: <img style="width:100px;" ngf-thumbnail="up.file"/> -->
          
-            <button type="submit" class ="btn btn-primary" ng-click="up.submit()">submit</button>
-            <p>{{up.progress}}</p>
+            <button type="submit" class ="btn btn-primary" ng-click="uploadFile()">submit</button>
+            <p>{{progress}}</p>
             <div class="progress">
 			  <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar"
 			  aria-valuemin="0" aria-valuemax="100" ng-style="myStyle">
@@ -91,9 +111,6 @@
 			</div>
     </form>
 
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
       </div>
     </div>
 

@@ -36,9 +36,10 @@ app.use(methodOverride());
         next();
     });
 app.use(express.static('../client'));
+/*End of Envirnoment Setup*/
+
 
 /*Code For all the http requests*/
-
 apiRoutes.post('/authenticate',function(req,res){
       
       var userName  = req.body.userName;
@@ -262,7 +263,7 @@ simple_git1
                   return path.join(p, file);
               }).filter(function (file) {
                   if(fs.statSync(file).isFile()){
-                     var data = {'name':path.basename(file),isFile:true,address:file};
+                     var data = {'name':path.basename(file),isFile:true,address:file,time:fs.statSync(file).mtime};
                     fileStructure[i] = data;
                     i++;
                   }
@@ -296,7 +297,7 @@ apiRoutes.post('/download/', function(req, res) {
                   return path.join(p, file);
               }).filter(function (file) {
                   if(fs.statSync(file).isFile()){
-                     var data = {'name':path.basename(file),isFile:true,address:file};
+                     var data = {'name':path.basename(file),isFile:true,address:file,time:fs.statSync(file).mtime};
                     fileStructure[i] = data;
                     i++;
                   }
@@ -404,24 +405,19 @@ for (var i in user) {
 }
 //End of the add custom field
 });
+  var upload = function(req,res,err){
+   console.log(req)
+  }
 
-var folderPath = './repos/myrepo'
-  var storage = multer.diskStorage({ //multers disk storage settings
-        destination: function (req, file, cb) {
-            cb(null, folderPath)
-        },
-        filename: function (req, file, cb) {
-            var datetimestamp = Date.now();
-            cb(null, file.fieldname+ '.' +file.originalname.split('.')[file.originalname.split('.').length -1])
-        }
-    });
-    var upload = multer({ //multer settings
-                    storage: storage
-                }).single('file');
     /** API path that will upload the files */
     apiRoutes.post('/upload', function(req, res) {
-      console.log("upload caled");
-        upload(req,res,function(err){
+
+      upload(req,res,function(err){
+        console.log("asdfs"+req.body.uploadPath);
+        /*  folderPath = './repo_clones/'+req.body.uploadPath+'/';
+          console.log("upload called Th path is "+JSON.stringify(req.body.uploadPath));
+          
+        */
             if(err){
                  res.json({error_code:1,err_desc:err});
                  return;
@@ -430,11 +426,18 @@ var folderPath = './repos/myrepo'
         })
     });
 
-
-
-
-
-
+/* var storage = multer.diskStorage({ //multers disk storage settings
+          destination: function (req, file, cb) {
+            cb(null, folderPath)
+          },
+          filename: function (req, file, cb) {
+            var datetimestamp = Date.now();
+            cb(null,file.originalname)
+        }
+    });
+    var upload = multer({ //multer settings
+                    storage: storage
+                }).single('file');*/
 //middleware to protect the routes from unauthorised access
 apiRoutes.use(function(req, res, next) {
 

@@ -20,7 +20,9 @@
 	font-size:3em;
 
 }
-
+#dataTable{
+  border: 2px solid black;  
+}
 #docDiv
 {
  margin-left:500px; 

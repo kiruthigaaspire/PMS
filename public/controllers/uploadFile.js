@@ -52,7 +52,7 @@ angular.module('informacia.fileUpload', ['ngRoute'])
     angular.module('informacia.fileUpload', ['ngFileUpload','ngRoute'])
     .controller('FileUploadCtrl',['Upload','$window','$http','$scope','$routeParams',function(Upload,$window,$http,$scope,$routeParams){
         console.log($routeParams.path)
-        /*var vm = this;
+        var vm = this;
         vm.submit = function(){
          //function to call on form submit
         console.log("submit cllaedd")
@@ -63,6 +63,7 @@ angular.module('informacia.fileUpload', ['ngRoute'])
         vm.upload = function (file) {
             Upload.upload({
                 url: '/myapi/upload', //webAPI exposed to upload the file
+                path:
                 data:{file:file} //pass file as data, should be user ng-model
             }).then(function (resp) { //upload function returns a promise
                 if(resp.data.error_code === 0){ //validate success
@@ -80,7 +81,7 @@ angular.module('informacia.fileUpload', ['ngRoute'])
                 console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
                 vm.progress = 'progress: ' + progressPercentage + '% '; // capture upload progress
             });
-/*            data:{file:file};
+           data:{file:file};
             $http.post('/myapi/upload',data)
             .success(function(response){
             	console.log("File Uploaded"+response)
@@ -88,5 +89,5 @@ angular.module('informacia.fileUpload', ['ngRoute'])
             .error(function(response){
             	console.log("Error"+response)
             })
-        };*/
+        };
     }]);

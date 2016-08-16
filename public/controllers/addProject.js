@@ -69,11 +69,11 @@ $scope.addProjectToDatabase = function(){
 		};
 		var config = {
 			headers:  {
-			      'Authorization':'token e568814de1c8e8ffa5d5e8f33ebc1b7b55b93338',
+			      'Authorization':'token aa46cce03432c2a80d64cf83be59f2e6d114a48e',
 			      'Accept': 'application/json;odata=verbose',
 			    }  
 		};
-		
+		//request for adding a repo to the account....
 		$http.post('https://api.github.com/user/repos',githubData,config)
 		.success(function(response){
 			if(response.id != null)

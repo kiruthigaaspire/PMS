@@ -1,28 +1,40 @@
 'use strict';
 
-angular.module('informacia.projectCode', ['ngRoute'])
-.controller('ProjectCodeCtrl',function($scope,$http,$routeParams,$location) {
-
+angular.module('informacia.projectCode', ['ngRoute','ngFileUpload'])
+.controller('ProjectCodeCtrl',function($scope,$http,$routeParams,$location,Upload) {
+$('#dataTable').hide();
 /*Default Declaration*/
+$scope.tempFileStructure = [];
 $scope.fileStructure = [];
 $scope.loaderImg = true;
+$scope.dataTable = false;
 $scope.folderName = "";
 $scope.curDir = $routeParams.gitRepo+"/";
+$scope.projectName = $routeParams.gitRepo;
 
 
-		$http.get('/myapi/projectCode/'+$routeParams.gitRepo)
-		.success(function(response){
-			 $('#mydiv').hide();
-			if(response.success){
-				console.log(response.fileStructure);
-			$scope.fileStructure = response.fileStructure;
+$http.get('/myapi/projectCode/'+$routeParams.gitRepo)
+	.success(function(response){
+		$('#mydiv').hide();
+		$('#dataTable').show();
+		if(response.success){
+		console.log(response.fileStructure);
+		$scope.tempFileStructure = response.fileStructure;
+		$scope.modifyDate();
+		}
+		else
+		{
+		alert("Some Error Occured");
+		}
+	})
+$scope.modifyDate = function(){
+	var fsArray = $scope.tempFileStructure;
+		for( var i = 0;i<fsArray.length;i++) {
+			var dd = new Date(fsArray[i].time);
+			$scope.tempFileStructure[i].time = dd.toDateString();
 			}
-			else
-			{
-			 alert("Some Error Occured");
-			}
-		})
-
+		$scope.fileStructure = $scope.tempFileStructure;
+}
 $scope.getFiles = function(address,name){
 	$scope.curDir += name+"/";
 
@@ -32,7 +44,8 @@ $scope.getFiles = function(address,name){
 			 $('#mydiv').hide();
 			if(response.success){
 				console.log(response.fileStructure);
-			$scope.fileStructure = response.fileStructure;
+			$scope.tempFileStructure = response.fileStructure;
+			$scope.modifyDate();
 			}
 			else
 			{
@@ -62,7 +75,8 @@ $scope.goBack = function(){
 			 $('#mydiv').hide();
 			if(response.success){
 				console.log(response.fileStructure);
-			$scope.fileStructure = response.fileStructure;
+				$scope.tempFileStructure = response.fileStructure;
+				$scope.modifyDate();
 			}
 			else
 			{
@@ -92,14 +106,35 @@ console.log(add);
 
 
 };
-$scope.redirectToupload = function(){
-	var path  = $scope.curDir;
-	$location.url('fileUpload/ameeya');
-
-
+$scope.uploadFile = function(){
+	//function to call on form submit
+    console.log("submit cllaedd")
+        if ($scope.upload_form.file.$valid && $scope.file) { //check if from is valid
+       	    $scope.upload($scope.file); //call upload function
+            }
 }
-
-
+$scope.upload = function (file) {
+       		var uploadPath = $scope.curDir;
+            Upload.upload({
+                url: '/myapi/upload', //webAPI exposed to upload the file
+                data:{file:file,uploadPath:uploadPath} //pass file as data, should be user ng-model
+            }).then(function (resp) { //upload function returns a promise
+                if(resp.data.error_code === 0){ //validate success
+                    console.log('Success ' + resp.config.data.file.name + 'uploaded');
+                } else {
+                   alert('an error occured'+JSON.stringify(resp.data));
+                }
+            }, function (resp) { //catch error
+                console.log('Error status: ' + resp.status);
+            }, function (evt) {
+                console.log(evt);
+                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                $scope.myStyle={'width':progressPercentage+"%"};
+                $scope.a = 1;
+                console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+                $scope.progress = 'progress: ' + progressPercentage + '% '; // capture upload progress
+            });
+        };
 
 
 $scope.downloadFile = function(name,address){
